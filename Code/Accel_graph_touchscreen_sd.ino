@@ -19,7 +19,6 @@
 //#include <SD.h>
 #include <Time.h>
 #include <DS3231RTC.h>
-#include <EasyTransfer.h>
 
 //-------------------------------DEFINITIONS---------------------------\\
 
@@ -43,29 +42,9 @@
 #define MINPRESSURE 10 //min/max pressure for touchscreen
 #define MAXPRESSURE 1000
 
-EasyTransfer ETSerial;
-
-struct SEND_DATA_STRUCTURE // Set of data used in EasyTransfer communication
-{
-  int xAng;
-  int yAng;
-  int zAng;
-  int xDeg;
-  int yDeg;
-  //int zDeg;
-  float rX;
-  float rY;
-  //float rZ;
-  float rRadius;
-  int rDegree;
-  int buttonState;
-};
-
 int rX;
 int rY;
 int rZ;
-
-SEND_DATA_STRUCTURE accelData;
 
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345); //assign ID to our accelerometer
 
@@ -105,7 +84,6 @@ void setup()
   tft.begin();
   tft.setRotation(1);
   tft.fillScreen(TFTLCD_BLACK);
-
   
   //sync time with RTC
   setSyncProvider(RTC.get);
@@ -319,10 +297,6 @@ void loop()
    //delay(50);
    */
    
-   accelData.rX = rX;
-   accelData.rY = rY;
-   //accelData.rZ = rZ;
-   //ETSerial.sendData();
    //delay(50);
    
   }
