@@ -45,6 +45,7 @@
 #define MINPRESSURE 10 //min/max pressure for touchscreen
 #define MAXPRESSURE 1000
 
+//MCP3008 (analog port expander) stuff
 #define ADC_CS_PIN A1
 #define ADC_CLOCK_PIN 13
 #define ADC_MOSI_PIN 11
