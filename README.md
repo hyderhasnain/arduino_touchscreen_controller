@@ -24,3 +24,7 @@ The graphing code works by storing two variables for each accelerometer axis(XYZ
 The code is heavily commented.
 The code also contains snippets to enable drawing circles. Lots of other stuff is commented out, for example if you want to enable SD card logging, comment out the touchscreen code and un-comment the SD card code. Read Adafruit's writeup of their graphics library! :)
 
+There are *two* versions of the code, one without any input from the MCP3008 (joysticks, voltage sensor, light sensor) and one with. The one without is faster.
+
+This code probably contains lots of stuff that I need specifically for this board, but you can probably figure it out.
+
