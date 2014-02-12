@@ -23,7 +23,6 @@
 //#include <SD.h>
 #include <Time.h>
 #include <DS3231RTC.h>
-#include <EasyTransfer.h>
 #include <MCP3008.h>
 
 //-------------------------------DEFINITIONS---------------------------\\
@@ -32,16 +31,14 @@
 #define LCD_CD A2
 #define LCD_WR A1
 #define LCD_RD A0
-//!!!***!!!
-#define LCD_RESET A3 //!!!change in your own code to something else!!!; I don't use this personally, so mine doesn't matter!!!
-//!!!***!!!
-#define YP A3  // must be an analog pin, use "An" notation!
-#define XM A2  // must be an analog pin, use "An" notation!
+#define LCD_RESET A3 //change in your own code to something else!!!; I don't use this personally, so mine doesn't matter!!!
+#define YP A3  // must be an analog pin, use "AN" notation!
+#define XM A2  // must be an analog pin, use "AN" notation!
 #define YM 9   // can be a digital pin
 #define XP 8   // can be a digital pin
 
 #define TS_MINX 115 //min/max values for touchscreen
-#define TS_MINY 124 //!!!THIS IS UNIQUE FOR EVERY TOUCHSCREEN!!!
+#define TS_MINY 124 //!!!Unique for every touchscreen!!!
 #define TS_MAXX 914 
 #define TS_MAXY 934
 
@@ -55,29 +52,9 @@
 
 MCP3008 adc(ADC_CLOCK_PIN, ADC_MOSI_PIN, ADC_MISO_PIN, ADC_CS_PIN);
 
-EasyTransfer ETSerial;
-
-struct SEND_DATA_STRUCTURE // Set of data used in EasyTransfer communication
-{
-  int xAng;
-  int yAng;
-  int zAng;
-  int xDeg;
-  int yDeg;
-  //int zDeg;
-  float rX;
-  float rY;
-  //float rZ;
-  float rRadius;
-  int rDegree;
-  int buttonState;
-};
-
 int rX;
 int rY;
 int rZ;
-
-SEND_DATA_STRUCTURE accelData;
 
 Adafruit_ADXL345_Unified accel = Adafruit_ADXL345_Unified(12345); //assign ID to our accelerometer
 
@@ -117,7 +94,6 @@ byte SD_CS = 10; //SPI CS pin for SD card
 
 void setup()
 {
-
   Serial.begin(57600); //for debugging
 
   //begin the LCD
@@ -125,7 +101,6 @@ void setup()
   tft.begin();
   tft.setRotation(1);
   tft.fillScreen(TFTLCD_BLACK);
-
 
   //sync time with RTC
   setSyncProvider(RTC.get);
@@ -160,9 +135,6 @@ void setup()
   tftDrawColorKey();
   tftDrawXScaleButtons();
   tftDrawYScaleButtons();
-
-
-
 }
 
 //------------------------------MAIN PROGRAM--------------------------\\
@@ -170,7 +142,6 @@ void setup()
 void loop()
 {
   //---------MAIN 'FOR' LOOP! THIS IS WHERE ALL THE ACTION HAPPENS! HAS TO BE FAST!!!!!---------\\
-
 
   for (x_pos = (11 + x_scale); x_pos <= 320; x_pos += x_scale) //go along every point on the x axis and do something, start over when finished
   {
@@ -355,40 +326,57 @@ void loop()
      //delay(50);
      */
 
-    //accelData.rX = rX;
-    //accelData.rY = rY;
-    //accelData.rZ = rZ;
-    //ETSerial.sendData();
-    //delay(50);
+    //CODE FOR PRINTING MCP3008 ANALOG VALUES!!
+    int Ch1Val = adc.readADC(0); //Read all values
+    int Ch2Val = adc.readADC(1); 
+    int Ch3Val = adc.readADC(2); 
+    int Ch4Val = adc.readADC(3);
+    int Ch5Val = adc.readADC(4); 
+    int Ch6Val = adc.readADC(5); 
+    int Ch7Val = adc.readADC(6); 
+    int Ch8Val = adc.readADC(7);
 
-    int Ch1Val = adc.readADC(0); int Ch2Val = adc.readADC(1); int Ch3Val = adc.readADC(2); int Ch4Val = adc.readADC(3);
-    int Ch5Val = adc.readADC(4); int Ch6Val = adc.readADC(5); int Ch7Val = adc.readADC(6); int Ch8Val = adc.readADC(7);
+    if (displayADC1 != Ch1Val)  //Checking to see if displayed values should be updated... 
+    {
+      tft.fillRect(25, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC1 != Ch1Val) {
-      tft.fillRect(25, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC2 != Ch2Val) 
+    {
+      tft.fillRect(55, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC2 != Ch2Val) {
-      tft.fillRect(55, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC3 != Ch3Val) 
+    {
+      tft.fillRect(85, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC3 != Ch3Val) {
-      tft.fillRect(85, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC4 != Ch4Val) 
+    {
+      tft.fillRect(115, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC4 != Ch4Val) {
-      tft.fillRect(115, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC5 != Ch5Val) 
+    {
+      tft.fillRect(145, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC5 != Ch5Val) {
-      tft.fillRect(145, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC6 != Ch6Val) 
+    {
+      tft.fillRect(175, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC6 != Ch6Val) {
-      tft.fillRect(175, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC7 != Ch7Val) 
+    {
+      tft.fillRect(205, 220, 30, 8, TFTLCD_BLACK); 
+    }
 
-    if (displayADC7 != Ch7Val) {
-      tft.fillRect(205, 220, 30, 8, TFTLCD_BLACK); }
+    if (displayADC8 != Ch8Val) 
+    {
+      tft.fillRect(235, 220, 30, 8, TFTLCD_BLACK); 
+    }   
 
-    if (displayADC8 != Ch8Val) {
-      tft.fillRect(235, 220, 30, 8, TFTLCD_BLACK); }   
-
-    tft.setTextColor(TFTLCD_WHITE); 
+    tft.setTextColor(TFTLCD_WHITE); //Actually Print all values!
     tft.setTextSize(1);
     tft.setCursor(25, 220); tft.print(Ch1Val); tft.print(" ");
     tft.setCursor(55, 220); tft.print(Ch2Val); tft.print(" ");
@@ -399,24 +387,25 @@ void loop()
     tft.setCursor(205, 220); tft.print(Ch7Val); tft.print(" ");
     tft.setCursor(235, 220); tft.print(Ch8Val);
     
+    //Set value to compare from
     displayADC1 = Ch1Val; displayADC2 = Ch2Val; displayADC3 = Ch3Val; displayADC4 = Ch4Val;
     displayADC5 = Ch5Val; displayADC6 = Ch6Val; displayADC7 = Ch7Val; displayADC8 = Ch8Val;
     
     delay(5);
 
     /*
-   Serial.print("L Joystick U/D: "); Serial.print(Ch1Val);
-     Serial.print("  L Joystick R/L: "); Serial.print(Ch2Val);
-     Serial.print("  R Joystick U/D: "); Serial.print(Ch3Val);
-     Serial.print("  L Joystick U/D: "); Serial.print(Ch4Val);
-     Serial.print("  L Joystick Button: "); Serial.print(Ch5Val);
-     Serial.print("  L Joystick Button: "); Serial.print(Ch6Val);
-     Serial.print("  Light Sensor: "); Serial.print(Ch7Val);
-     Serial.print("  Battery: "); Serial.println(Ch8Val);
-     delay(5);
-     */
+    Serial.print("L Joystick U/D: "); Serial.print(Ch1Val);
+    Serial.print("  L Joystick R/L: "); Serial.print(Ch2Val);
+    Serial.print("  R Joystick U/D: "); Serial.print(Ch3Val);
+    Serial.print("  L Joystick U/D: "); Serial.print(Ch4Val);
+    Serial.print("  L Joystick Button: "); Serial.print(Ch5Val);
+    Serial.print("  L Joystick Button: "); Serial.print(Ch6Val);
+    Serial.print("  Light Sensor: "); Serial.print(Ch7Val);
+    Serial.print("  Battery: "); Serial.println(Ch8Val);
+    delay(5);
+    */
 
-  }
+  } //END OF FOR LOOP
 
   tft.fillRect(208, 0, 112, 28, TFTLCD_BLACK); //erase XY buttons and any lines behind them
   tft.fillRect(254, 208, 66, 32, TFTLCD_BLACK); //erase time and color key and any stray lines behind them
@@ -431,7 +420,7 @@ void loop()
   //tft.fillRect(21, 111, 299, 119, TFTLCD_BLACK); 
 
 
-}
+} //END OF MAIN
 
 //-------------------------------FUNCTIONS---------------------------\\
 
