@@ -1,10 +1,12 @@
 **Arduino Touchscreen LCD Wireless Controller Project** 
 =========================================================
 
+You can see this project in action here: http://www.youtube.com/watch?v=bEqvmakN07w
+
 ##Background
 
 I designed and built this project during summer 2013, as an upgrade to a previous wireless controller I built the previous summer to control a small robot. That controller used an LED ring to display orientation and driving direction, communicating via XBee, but I needed a wireless controller with more functionality and input options.
-So I found this LCD via Adafruit (). Perfect!
+So I found this LCD via Adafruit (https://www.adafruit.com/products/335). Perfect!
 
   >Turns out a newer version came out soon afterwards, that uses SPI instead of a parallel connection. Much fewer pins, easier to use, etc. Bummer, *lots* of my design decisions and compromises revolved around the limited IO on the Arduino... Oh well. 
 
